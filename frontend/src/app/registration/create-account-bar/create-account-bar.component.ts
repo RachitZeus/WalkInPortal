@@ -13,7 +13,8 @@ import { catchError, throwError } from 'rxjs';
 })
 export class CreateAccountBarComponent implements OnInit {
   @Input() createshow: boolean = false;
-  @Input() userData!: UserRegistrationRequest;
+  @Input()
+  userData!: UserRegistrationRequest;
   
   constructor(private router: Router,
     private http: HttpClient
@@ -28,6 +29,7 @@ export class CreateAccountBarComponent implements OnInit {
       : 'create-account-button create-button inactive';
   }
   onCreateClick() {
+    this.router.navigate(['/login']);
     this.http
       .post(`${baseurl}/user`, this.userData)
       .pipe(
@@ -37,6 +39,7 @@ export class CreateAccountBarComponent implements OnInit {
         })
       )
       .subscribe((data) => {
+        console.log("In subscribe")
         if (this.createshow) 
         this.router.navigate(['/login']);
       });

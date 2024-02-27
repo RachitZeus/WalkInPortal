@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { IJobData, IApplicationInfo } from './JobData';
 import { catchError } from 'rxjs/operators';
@@ -50,8 +50,12 @@ export class JobPageComponent implements OnInit {
   }
 
   fetchData(): void {
+    const jwttoken=localStorage.getItem("access_token");
+    console.log(jwttoken);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${jwttoken}`);
+    console.log(headers);
     this.http
-      .get<IJob[]>(`${baseurl}/jobs`)
+      .get<IJob[]>(`${baseurl}/jobs`,{headers})
       .pipe(
         catchError((error) => {
           console.error('There was a problem with the fetch operation:', error);
